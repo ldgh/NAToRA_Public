@@ -87,8 +87,23 @@ Execution example:
 ```
 perl PLINK2NAToRA.pl -i <output REAP> -o <file name>
 ```
+### KING2NAToRA.pl:
 
-### criaGML.pl:
+This script was conceived in order to convert PLINK output (--genome) into NAToRA’s model.
+
+#### Parameters
+```
+	     --input ou -i		PLINK output file
+	     --output ou -o		File name in NAToRA’s format
+```
+
+Execution example:
+
+```
+perl KING2NAToRA.pl -i <output REAP> -o <file name>
+```
+
+### createGML.pl:
 
 This script was made to convert data in PLINK, REAP or NAToRA format to GML (compatible with most complex network softwares and libraries). In simpler plots, we recommend the utilization of the software yED.
 
