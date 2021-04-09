@@ -16,7 +16,7 @@ Besides having both of the languages installed, it is necessary to install pytho
 ## Brief Introduction to the scripts
 
 
-In this section we are going to present all the scripts and provide execution examples. We are going to utilize the file Teste0.txt in the examples. 
+In this section we are going to present all the scripts and provide execution examples. We are going to utilize the file Datasets/Test.txt in the examples. 
 
 ### NAToRA_Public.py
 
