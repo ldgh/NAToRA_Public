@@ -8,7 +8,8 @@ NAToRA toolkit consists of a series of scripts to execute kinship control analys
 NAToRA toolkit was implemented using two programming languages:
 
 * Perl
-* Python
+* Python3
+* NetworkX 2.5
 
 Besides having both of the languages installed, it is necessary to install python’s library NetworkX as well. An installation guide is present in [NetworkX] website.(https://networkx.github.io/documentation/stable/install.html)
 
@@ -17,7 +18,7 @@ Besides having both of the languages installed, it is necessary to install pytho
 
 In this section we are going to present all the scripts and provide execution examples. We are going to utilize the file Teste0.txt in the examples. 
 
-### Natora2.py and individuo.py:
+### NAToRA_Public.py
 
 These are the main scripts in the kinship control analyses execution. In order to allow the utilization of any kinship analysis software (PLINK, REAP, Matriz G, etc), we utilize a 3 column input:
 
@@ -31,30 +32,42 @@ The parameters are described below:
 #### Parameters
 
 ```
-	     --input or -i		Input file					
-	     --cutValue or -c		Minimum value to be considered kinship	(α value)
-	     	--valueMin or -v	Minimum tiebreaker value			
-	     	--valueMax or -V	Maximum tiebreaker value			
-	     --folder or -l		Output folder 	
-	     --elimination or -e	Elimination method (default=1)	
-						1: Centrality Degree				
-						2: Betweenness Degree            		
-						3: Closeness Degree              		
-	     --maxValuePossible or -m	When the elimination method used is 2 or 3, a normalization must be done: 					
-					valorMaximoDaMatrica - Link value			
-	     --help or -h		show this message		
+	  usage: NAToRA_Public.py [-h] -i INPUT -o OUTPUT [-c CUTOFF] [-v VALUEMIN] [-V VALUEMAX] [-e ELIMINATION] [-t] [-m MAX] [-k] [-d DEGREE]
+
+NAToRA: Network Algorithm To Relatedness Analysis
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+Required arguments:
+  -i INPUT, --input INPUT
+                        Input file in NAToRA format (indx indy kinship)
+  -o OUTPUT, --output OUTPUT
+                        Output file. NAToRA will creates two files: <output>_familyList.txt and <output>_toRemove.txt
+
+Optional arguments:
+  -c CUTOFF, --cutoff CUTOFF
+                        Cutoff value that defines the minimum value for two individuals to be considered related (optional if --kinship)
+  -v VALUEMIN, --valueMin VALUEMIN
+                        Minimum value in tiebreaker (default = 0)
+  -V VALUEMAX, --valueMax VALUEMAX
+                        Maximum value in tiebreaker (default = highest kinship value of the input)
+  -e ELIMINATION, --elimination ELIMINATION
+                        Elimination method (default= NAToRA choose based on network).1- Heuristic based on node centrality degree 2- Optimal algorithm (based on clique)
+  -t, --test            Estimation of how many samples will be lost. The algorithm requires the --max
+  -m MAX, --max MAX     Maximum possible value of metric
+  -k, --kinship         Signals that the file uses kinship coefficient.This allows to NAToRA use the flag --degree to set --cutoff, --valueMin and --valueMax based on kinship degree or
+                        make --test showing the regions of each degree
+  -d DEGREE, --degree DEGREE
+                        Flag used with --kinship to set automatically the --cutoff based on kinship coefficient.0 = Self degree (-c 0.3535) 1 = First degree (-c 0.1768) 2 = Second degree
+                        (-c 0.0884) 3 = Third degree (-c 0.0442) 4 = Fourth degree (-c 0.0221)
 ```
 
 Execution example
 
 ```
-python Natora.py -i teste.txt -c 0.1 -v 0.01 -V 0.2 -l ./ -e 1
+python NAToRA_Public.py --input Datasets/Test.txt -o Out -c 0.08 
 ```
-
-#### Known issues
-
-There are function incompatibilities between the different NetworkX versions, and that can lead to errors. If the library used is NetworkX 2.0, we recommend the utilization of Natora_Public.py, because NetworkX’s update modified some functions. In this version we maintain only Node Degree centrality based on heuristic exclusion and the optimum algorithm. For old versions of NetworkX we recomend the use of NAToRA_Old.py
-
 
 ### REAP2NAToRA.pl:
 
@@ -85,22 +98,22 @@ This script was conceived in order to convert PLINK output (--genome) into NAToR
 Execution example:
 
 ```
-perl PLINK2NAToRA.pl -i <output REAP> -o <file name>
+perl PLINK2NAToRA.pl -i <output PLINK> -o <file name>
 ```
 ### KING2NAToRA.pl:
 
-This script was conceived in order to convert PLINK output (--genome) into NAToRA’s model.
+This script was conceived in order to convert KiING .kin0 into NAToRA’s model.
 
 #### Parameters
 ```
-	     --input ou -i		PLINK output file
+	     --input ou -i		Input file from KING (.kin file)
 	     --output ou -o		File name in NAToRA’s format
 ```
 
 Execution example:
 
 ```
-perl KING2NAToRA.pl -i <output REAP> -o <file name>
+perl KING2NAToRA.pl -i <output KING> -o <file name>
 ```
 
 ### createGML.pl:
@@ -123,7 +136,7 @@ This script was made to convert data in PLINK, REAP or NAToRA format to GML (com
 Execution example:
 
 ```
-perl criaGML.pl -i teste.txt -c 0.1 -o teste.gml -default
+perl createGML.pl --input Datasets/Test.txt -c 0.1 -out Test.gml --default
 ```
 
 Given these parameters, the software will open the file teste.txt and insert only links in which the edge value (or kinship value) are bigger than 0.1 (parameter -c). The cut value was implemented because it enables plotting with different kinship degrees. 
