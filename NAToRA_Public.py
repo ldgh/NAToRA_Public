@@ -134,31 +134,32 @@ def tiebreaker(listOfNodes, network):
     
 
 def familyDetection(network, output):
-    connectedComponent=nx.connected_component_subgraphs(network)
-    
+    connectedComponent = nx.connected_components(network)
+
     count=1
     
     file=open(output+"_familyList.txt","w")
     
     for component in connectedComponent:
-        for node in component.node():
+        for node in component:
             file.write(str(node)+"\t"+str(count)+"\n")
         count=count+1
     file.close()
 
 def optimalElimination(Nc):
-    connectedComponent=nx.connected_component_subgraphs(Nc)
+    connectedComponent = nx.connected_components(Nc)
     
     toRemove=[]
     for component in connectedComponent:
-        complementNetwork=nx.complement(component)
+        subGraph = Nc.subgraph(component)
+        complementNetwork=nx.complement(subGraph)
         cliqueMax=nx.find_cliques(complementNetwork)
         cliqueWanted=[]
         for clique in cliqueMax:
             if(len(clique) > len (cliqueWanted)):
                 cliqueWanted=clique
                     
-        for node in component.nodes():
+        for node in component:
             if(node not in cliqueWanted):
                 toRemove.append(node)
     return toRemove
@@ -188,14 +189,15 @@ def heuristicElimination(Nc, N):
     
     centralityN=nx.degree_centrality(N)
     
-    connectedComponent=nx.connected_component_subgraphs(Nc)
+    connectedComponent = nx.connected_components(Nc)
     for component in connectedComponent:
+        subGraph = Nc.subgraph(component).copy()
         runStep1=True
         while runStep1:
-            centralityNc=nx.degree_centrality(component)
+            centralityNc=nx.degree_centrality(subGraph)
             #If the component is empty
             if not centralityNc.values():
-                runStep1=False
+                runStep1 = False
                 break
             
             #Get the biggest centrality and all nodes with the same centrality
@@ -210,7 +212,7 @@ def heuristicElimination(Nc, N):
             
             #Check if there's at least one candidate with more than 1 neighbor            
             for node in listOfNodes:
-                if(component.degree(node) > 1):
+                if(subGraph.degree(node) > 1):
                     runStep1=True            
             
             
@@ -218,19 +220,19 @@ def heuristicElimination(Nc, N):
                 #If exist, lets remove
                 toRemove=listOfNodes[0]
                 if(len(listOfNodes) > 1):
-                    toRemove=tiebreaker(listOfNodes, component) 
+                    toRemove=tiebreaker(listOfNodes, subGraph)
                 
-                component.remove_node(toRemove)
+                subGraph.remove_node(toRemove)
                 removedIndividuals.append(toRemove)
         
-        remainingNodes=component.nodes()
+        remainingNodes=subGraph.nodes()
         
         alreadyRemoved=[]
                 
         for node in remainingNodes:
-            if component.degree(node) > 0:
+            if subGraph.degree(node) > 0:
                 if node not in alreadyRemoved:
-                    neighborhood=component.neighbors(node)
+                    neighborhood=subGraph.neighbors(node)
                     for neighbor in neighborhood:
                         if centralityN[node] > centralityN[neighbor]:
                            toRemove=node
