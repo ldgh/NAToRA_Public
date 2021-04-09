@@ -26,7 +26,7 @@ These are the main scripts in the kinship control analyses execution. In order t
 IND1	IND2	Coefficient
 ```
 
-In the toolkit, we provide two scripts to convert PLINK and REAP files to this column format (PLINK2NAToRA.pl and REAP2NAToRA.pl, respectively). 
+In the toolkit, we provide three scripts to convert PLINK, KING and REAP files to this column format (PLINK2NAToRA.pl, KING2NAToRA.pl and REAP2NAToRA.pl, respectively). 
 The parameters are described below:
 
 #### Parameters
