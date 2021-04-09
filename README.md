@@ -32,7 +32,7 @@ The parameters are described below:
 #### Parameters
 
 ```
-	  usage: NAToRA_Public.py [-h] -i INPUT -o OUTPUT [-c CUTOFF] [-v VALUEMIN] [-V VALUEMAX] [-e ELIMINATION] [-t] [-m MAX] [-k] [-d DEGREE]
+usage: NAToRA_Public.py [-h] -i INPUT -o OUTPUT [-c CUTOFF] [-v VALUEMIN] [-V VALUEMAX] [-e ELIMINATION] [-t] [-m MAX] [-k] [-d DEGREE]
 
 NAToRA: Network Algorithm To Relatedness Analysis
 
