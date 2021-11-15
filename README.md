@@ -126,7 +126,7 @@ This script was made to convert data in PLINK, REAP or NAToRA format to GML (com
 	-lista					List containing excluded individuals			
 	-input					File containing the kinship matrix			
 	-output					GML output file name			
-	-plink					SSignals that it’s a PLINK’s file		
+	-plink					Signals that it’s a PLINK’s file		
 	-reap					Signals that it’s a REAP’s file		
 	-default				Signals that it’s NAToRA’s model file		
 	-split					splits ID by _ in order to decrease the label	
@@ -145,6 +145,6 @@ The parameter -lista is used to remove some individual(s) of the plot without mo
 
 ## NAToRA heuristic running
 
-We made this gif using the Guzerá data with relationship inferred by PLINK (Datasets/PLINK/GUZ_PLINK_IDChanged.genome.gz). IN this representation, we show in red the edges that will be removed after the exclusion of the individual with highest node degree centrality 
+We made this gif using the Guzerá data with relationship inferred by PLINK (Datasets/PLINK/GUZ_PLINK_IDChanged.genome.gz). IN this representation, we show in red the edges that will be removed after the exclusion of the individual with highest node degree centrality (higher quality : https://app.box.com/s/za9jwve45w13joxq1j3a3pqv2tblhuca ) 
 
-![Guzera Removal](https://app.box.com/s/za9jwve45w13joxq1j3a3pqv2tblhuca)
+![Guzera Removal](./Figures/file.gif)
