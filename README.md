@@ -147,4 +147,4 @@ The parameter -lista is used to remove some individual(s) of the plot without mo
 
 We made this gif using the Guzerá data with relationship inferred by PLINK (Datasets/PLINK/GUZ_PLINK_IDChanged.genome.gz). IN this representation, we show in red the edges that will be removed after the exclusion of the individual with highest node degree centrality (higher quality : https://app.box.com/s/za9jwve45w13joxq1j3a3pqv2tblhuca ) 
 
-![Guzera Removal](./Figures/file.gif)
+![Guzera Removal](./Figures/file.gif?style=centerme)
