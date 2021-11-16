@@ -145,6 +145,6 @@ The parameter -lista is used to remove some individual(s) of the plot without mo
 
 ## NAToRA heuristic running
 
-We made this gif using the Guzerá data with relationship inferred by PLINK (Datasets/PLINK/GUZ_PLINK_IDChanged.genome.gz). IN this representation, we show in red the edges that will be removed after the exclusion of the individual with highest node degree centrality (higher quality : https://app.box.com/s/za9jwve45w13joxq1j3a3pqv2tblhuca ) 
+We made this gif using the biggest family in Bambuí dataset data with relationship inferred by PLINK (Datasets/PLINK/BAMBUI_PLINK_IDChanged.genome.gz). In this representation, we show in red the edges that will be removed after the exclusion of the individual with highest node degree centrality
 
-![Guzera Removal](./Figures/file.gif?style=centerme)
+![Bambui Removal](./Figures/Bambui.gif?style=centerme)
