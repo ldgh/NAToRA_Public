@@ -247,7 +247,46 @@ def heuristicElimination(Nc, N):
             
     #print(len(removedIndividuals))
     return removedIndividuals
- 
+
+
+def getUnrelated(N):
+    unrelated = []
+
+    for node in N.nodes():
+        if N.degree(node) == 0:
+            unrelated.append(node)
+
+    return unrelated
+
+def makeIndependentSets(N, Nc, output):
+    print("Generating the independent sets")
+    file = open(output + "_sets", "w")
+
+    unrelated = getUnrelated(Nc)
+    file.write("ID\tSet ID\n")
+
+    setId = 1
+    toRemove = heuristicElimination(Nc, N)
+    NewNc = Nc.copy()
+    while (toRemove):
+        listRemoveNewNc = []
+        for node in NewNc.nodes():
+            if (not node in toRemove):
+                file.write(node + "\t" + str(setId) + "\n")
+                if (not node in unrelated):
+                    listRemoveNewNc.append(node)
+
+        for node in listRemoveNewNc:
+            NewNc.remove_node(node)
+
+        toRemove = heuristicElimination(NewNc, N)
+        setId = setId + 1
+
+    for node in NewNc.nodes():
+        file.write(node + "\t" + str(setId) + "\n")
+
+    print("We generate " + str(setId) + " indepedent sets. We used " + str(
+        len(unrelated)) + " unrelated individuals as control (ie, that will be present in all subsets)")
 
 def createNetworks(inputFile, cutoff, valueMin, valueMax):
     file=open(inputFile,"r")
@@ -329,7 +368,7 @@ if __name__ == '__main__':
     optional.add_argument('-m', '--max', help='Maximum possible value of metric')
     optional.add_argument('-k', '--kinship', help='Signals that the file uses kinship coefficient.This allows to NAToRA use the flag --degree to set --cutoff, --valueMin and --valueMax based on kinship degree or make --test showing the regions of each degree',action="store_true", default=False )
     optional.add_argument('-d', '--degree', help='Flag used with --kinship to set automatically the --cutoff based on kinship coefficient.0 = Self degree (-c 0.3535) 1 = First degree (-c 0.1768) 2 = Second degree (-c 0.0884) 3 = Third degree (-c 0.0442) 4 = Fourth degree (-c 0.0221) ')
-
+    optional.add_argument('-s', '--sets', help='Create independent sets', action="store_true", default=False)
     
     args=parser.parse_args()
     
@@ -339,6 +378,7 @@ if __name__ == '__main__':
     #Two ways : --test and exclusion
     test=args.test
     kinship=args.kinship
+    sets = args.sets
     
     if(test):
     #Test
@@ -352,6 +392,36 @@ if __name__ == '__main__':
         
                 
         makeTests(inputFile,maxMetricValue, outputFile, kinship)
+    elif sets:
+
+        if (kinship):
+            degree = args.degree
+            cutoffValue, valueMin, valueMax = cutoffBasedOnDegree(degree)
+        else:
+            if args.cutoff == None:
+                print(
+                    'The elimination requires a cutoff value (--cutoff <cutoff>) or a degree (--kinship -- degree <degree>)')
+                finish
+            else:
+                cutoffValue = float(args.cutoff)
+
+            valueMax = args.valueMax
+            if (args.valueMax == None):
+                print('Getting the --maxValue')
+                valueMax = getMax(inputFile)
+            else:
+                valueMax = float(args.valueMax)
+            if (args.valueMin == None):
+                valueMin = 0.0
+            else:
+                valueMin = float(args.valueMin)
+
+        print('Creating the Networks N and Nc (cutoff=' + str(cutoffValue) + ', valueMin=' + str(
+            valueMin) + ', valueMax=' + str(valueMax) + ')')
+        N, Nc = createNetworks(inputFile, cutoffValue, valueMin, valueMax)
+
+        makeIndependentSets(N, Nc, outputFile)
+
     else:
     #exclusion
         if(kinship):
