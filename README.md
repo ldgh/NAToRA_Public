@@ -61,6 +61,8 @@ Optional arguments:
   -d DEGREE, --degree DEGREE
                         Flag used with --kinship to set automatically the --cutoff based on kinship coefficient.0 = Self degree (-c 0.3535) 1 = First degree (-c 0.1768) 2 = Second degree
                         (-c 0.0884) 3 = Third degree (-c 0.0442) 4 = Fourth degree (-c 0.0221)
+  -s, --sets            Create independent sets
+
 ```
 
 Execution example
