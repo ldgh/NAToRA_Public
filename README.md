@@ -1,7 +1,7 @@
 # NAToRA
 # NAToRA toolkit
 
-NAToRA toolkit consists of a series of scripts to execute kinship control analyses as described in the manuscript by Leal et al. (submitted to NanoScience), entitled "NAToRA, a relatedness-pruning method to minimize the loss of dataset size in genetic and omics analyses"
+NAToRA toolkit consists of a series of scripts to execute kinship control analyses as described in the manuscript by Leal et al. 2022 (https://doi.org/10.1016/j.csbj.2022.04.009), entitled "NAToRA, a relatedness-pruning method to minimize the loss of dataset size in genetic and omics analyses"
 
 ## Requirements
 
