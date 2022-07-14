@@ -150,3 +150,14 @@ The parameter -lista is used to remove some individual(s) of the plot without mo
 We made this gif using the biggest family in Bambuí dataset data with relationship inferred by PLINK (Datasets/PLINK/BAMBUI_PLINK_IDChanged.genome.gz). In this representation, we show in red the edges that will be removed after the exclusion of the individual with highest node degree centrality
 
 ![Bambui Removal](./Figures/Bambui.gif?style=centerme)
+
+## Acknowledgements
+
+**Main developer of standalone version**: Thiago Peixoto Leal
+
+**Main developer of online version**: Vinicius Furlan
+
+**Quality assurance team**: Julia Maria Saraiva Duarte, Rafael Tou
+
+**Conceptualization**: Thiago Peixoto Leal, Mateus Henriquei Gouveia, Gilderlanio Santana de Araujo
+
