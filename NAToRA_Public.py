@@ -100,6 +100,7 @@ def chooseElimination(Nc, N):
         print("Our algorithm will run the heuristic algorithm.")
         toRemove=heuristicElimination(Nc, N)
     return toRemove
+
 def finish():
     print("Please, re-run with the flag -h to see the help")
     exit()
@@ -360,14 +361,22 @@ if __name__ == '__main__':
     required.add_argument('-o', '--output', help='Output file. NAToRA will creates two files: <output>_familyList.txt and <output>_toRemove.txt', required=True)
 
     optional= parser.add_argument_group("Optional arguments")
-    optional.add_argument('-c','--cutoff', help='Cutoff value that defines the minimum value for two individuals to be considered related (optional if --kinship)')
-    optional.add_argument('-v', '--valueMin',help='Minimum value in tiebreaker (default = 0)', required=False)
-    optional.add_argument('-V', '--valueMax',help='Maximum value in tiebreaker (default = highest kinship value of the input)', required=False)
+    optional.add_argument('-c','--cutoff', help="Cutoff value that defines the minimum value for two individuals to "
+                                                "be considered related (optional if --kinship)", type = float)
+    optional.add_argument('-v', '--valueMin',help='Minimum value in tiebreaker (default = 0)', required=False, type = float)
+    optional.add_argument('-V', '--valueMax',help='Maximum value in tiebreaker (default = highest kinship value of '
+                                                  'the input)', required=False, type = float)
     optional.add_argument('-e','--elimination', help= 'Elimination method (default= NAToRA choose based on network).1- Heuristic based on node centrality degree 2- Optimal algorithm (based on clique)', required=False)
     optional.add_argument('-t','--test', help='Estimation of how many samples will be lost. The algorithm requires the --max',action="store_true", default=False )
     optional.add_argument('-m', '--max', help='Maximum possible value of metric')
-    optional.add_argument('-k', '--kinship', help='Signals that the file uses kinship coefficient.This allows to NAToRA use the flag --degree to set --cutoff, --valueMin and --valueMax based on kinship degree or make --test showing the regions of each degree',action="store_true", default=False )
-    optional.add_argument('-d', '--degree', help='Flag used with --kinship to set automatically the --cutoff based on kinship coefficient.0 = Self degree (-c 0.3535) 1 = First degree (-c 0.1768) 2 = Second degree (-c 0.0884) 3 = Third degree (-c 0.0442) 4 = Fourth degree (-c 0.0221) ')
+    optional.add_argument('-k', '--kinship', help='Signals that the file uses kinship coefficient.This allows to '
+                                                  'NAToRA use the flag --degree to set --cutoff, --valueMin and '
+                                                  '--valueMax based on kinship degree or make --test showing the '
+                                                  'regions of each degree', action="store_true", default=False )
+    optional.add_argument('-d', '--degree', help='Flag used with --kinship to set automatically the --cutoff based on '
+                                                 'kinship coefficient.0 = Self degree (-c 0.3535) 1 = First degree ('
+                                                 '-c 0.1768) 2 = Second degree (-c 0.0884) 3 = Third degree (-c '
+                                                 '0.0442) 4 = Fourth degree (-c 0.0221) ', type = int)
     optional.add_argument('-s', '--sets', help='Create independent sets', action="store_true", default=False)
     
     args=parser.parse_args()
@@ -393,14 +402,12 @@ if __name__ == '__main__':
                 
         makeTests(inputFile,maxMetricValue, outputFile, kinship)
     elif sets:
-
         if (kinship):
-            degree = args.degree
+            degree = int(args.degree)
             cutoffValue, valueMin, valueMax = cutoffBasedOnDegree(degree)
         else:
             if args.cutoff == None:
-                print(
-                    'The elimination requires a cutoff value (--cutoff <cutoff>) or a degree (--kinship -- degree <degree>)')
+                print('The elimination requires a cutoff value (--cutoff <cutoff>) or a degree (--kinship -- degree <degree>)')
                 finish
             else:
                 cutoffValue = float(args.cutoff)
@@ -425,7 +432,7 @@ if __name__ == '__main__':
     else:
     #exclusion
         if(kinship):
-            degree=args.degree
+            degree=int(args.degree)
             cutoffValue, valueMin, valueMax=cutoffBasedOnDegree(degree)
         else:
             if args.cutoff == None:
