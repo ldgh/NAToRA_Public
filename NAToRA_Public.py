@@ -363,7 +363,7 @@ if __name__ == '__main__':
     optional= parser.add_argument_group("Optional arguments")
     optional.add_argument('-c','--cutoff', help="Cutoff value that defines the minimum value for two individuals to "
                                                 "be considered related (optional if --kinship)", type = float)
-    optional.add_argument('-v', '--valueMin',help='Minimum value in tiebreaker (default = 0)', required=False, type = float)
+    optional.add_argument('-v', '--valueMin',help='Minimum value in tiebreaker (default = 0.01105)', required=False, type = float)
     optional.add_argument('-V', '--valueMax',help='Maximum value in tiebreaker (default = highest kinship value of '
                                                   'the input)', required=False, type = float)
     optional.add_argument('-e','--elimination', help= 'Elimination method (default= NAToRA choose based on network).1- Heuristic based on node centrality degree 2- Optimal algorithm (based on clique)', required=False)
@@ -448,7 +448,7 @@ if __name__ == '__main__':
             else:
                 valueMax=float(args.valueMax)
             if(args.valueMin == None):
-                valueMin=0.0
+                valueMin=0.0221/2
             else:
                 valueMin=float(args.valueMin)
         
